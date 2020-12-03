@@ -89,4 +89,19 @@ public class AddressBook {
 		System.out.println("*****Successfully edited****");
 	}
 
+	public void deleteContact() {
+		for (int i = 0; i < contact.size(); i++) {
+			System.out.println("Enter First Name : ");
+			Scanner sc = new Scanner(System.in);
+			String fname = sc.nextLine();
+			if (contact.get(i).getFirstName().equalsIgnoreCase(fname)) {
+				contact.remove(i);
+			} else {
+				System.out.println("Contact Not Found");
+			}
+		}
+		System.out.println(contact);
+		System.out.println("Contact deleted!");
+	}
+
 }
