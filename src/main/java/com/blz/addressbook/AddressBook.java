@@ -160,4 +160,9 @@ public class AddressBook {
 		contact.forEach(i -> System.out.println(i));
 	}
 
+	public void sortByState() {
+		contact = contact.stream().sorted(Comparator.comparing(ContactDetails::getState)).collect(Collectors.toList());
+		contact.forEach(i -> System.out.println(i));
+	}
+
 }
