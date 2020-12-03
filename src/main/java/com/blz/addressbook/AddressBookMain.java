@@ -58,7 +58,7 @@ public class AddressBookMain {
 		while (flag == 1) {
 			System.out.println("Welcome to address book program ");
 			System.out.println(
-					"Choose options: \n1.AddContact \n2.EditContact \n3.DeleteContact \n4.AddMultipleContacts \n5.Exit to main menu  ");
+					"Choose options: \n1.AddContact \n2.EditContact \n3.DeleteContact \n4.AddMultipleContacts \n5.Search person in city \n6.Exit to main menu  ");
 			int choice = sc.nextInt();
 			switch (choice) {
 			case 1:
@@ -82,6 +82,13 @@ public class AddressBookMain {
 				addressBook.addMultipleContacts();
 				break;
 			case 5:
+				if (AddressBook.contact.isEmpty()) {
+					System.out.println("Address book is empty ");
+					break;
+				}
+				addressBook.searchPersonByCity();
+				break;
+			case 6:
 				addMultipleAddressBook();
 				break;
 			default:
