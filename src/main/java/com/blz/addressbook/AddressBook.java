@@ -143,4 +143,13 @@ public class AddressBook {
 		contact.stream().filter(n -> n.getCity().equals(city)).forEach(i -> System.out.println(i));
 	}
 
+	public void countContactByCity() {
+		int count = 0;
+		System.out.println("Enter City Name : ");
+		Scanner sc = new Scanner(System.in);
+		String city = sc.nextLine();
+		count = (int) contact.stream().filter(n -> n.getCity().equals(city)).count();
+		System.out.println(count);
+	}
+
 }
