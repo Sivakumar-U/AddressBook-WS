@@ -104,4 +104,14 @@ public class AddressBook {
 		System.out.println("Contact deleted!");
 	}
 
+	public void addMultipleContacts() {
+		System.out.println("Enter number of persons to add to Address Book: ");
+		int noOfPersons = sc.nextInt();
+		int count = 1;
+		while (count <= noOfPersons) {
+			addContact();
+			count++;
+		}
+	}
+
 }

@@ -15,7 +15,8 @@ public class AddressBookMain {
 		int flag = 1;
 		while (flag == 1) {
 			System.out.println("Welcome to address book program ");
-			System.out.println("Choose options: \n1.AddContact \n2.EditContact \n3.DeleteContact \n4.Exit ");
+			System.out.println(
+					"Choose options: \n1.AddContact \n2.EditContact \n3.DeleteContact \n4.AddMultipleContacts \n5.Exit ");
 			int choice = sc.nextInt();
 			switch (choice) {
 			case 1:
@@ -36,6 +37,9 @@ public class AddressBookMain {
 				addressBook.deleteContact();
 				break;
 			case 4:
+				addressBook.addMultipleContacts();
+				break;
+			case 5:
 				flag = 0;
 				System.out.println("Exit successfully");
 				break;
