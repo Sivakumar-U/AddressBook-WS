@@ -1,12 +1,54 @@
 package com.blz.addressbook;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Scanner;
 
 public class AddressBookMain {
 
-	public static void main(String[] args) {
+	static Map<String, AddressBookMain> addressBookObj = new HashMap<>();
+	static AddressBookMain addressObj = new AddressBookMain();
 
-		options();
+	public static void addMultipleAddressBook() {
+		Scanner input = new Scanner(System.in);
+		System.out
+				.println("Enter choice \n1.Create new addressbook \n2.Adding contacts in existing register \n3.Exit ");
+		int entry = input.nextInt();
+		if (entry != 3) {
+			switch (entry) {
+			case 1:
+				Scanner input1 = new Scanner(System.in);
+				System.out.println(" Enter name of address book ");
+				String nameOfNewBook = input1.nextLine();
+				if (addressBookObj.containsKey(nameOfNewBook)) {
+					System.out.println(" Given address book name already exists");
+					break;
+				}
+				addressBookObj.put(nameOfNewBook, addressObj);
+				System.out.println(" Given address book " + " " + nameOfNewBook + " " + "has been added");
+				AddressBookMain.options();
+				break;
+			case 2:
+				Scanner existingAddressName = new Scanner(System.in);
+				System.out.println(" Enter name of address book ");
+				String nameOfExistingRegister = existingAddressName.nextLine();
+				if (addressBookObj.containsKey(nameOfExistingRegister)) {
+					addressBookObj.get(nameOfExistingRegister);
+					AddressBookMain.options();
+				} else
+					System.out.println(" address book is not found ");
+			case 3:
+				entry = 3;
+				break;
+			default:
+				System.out.println(" Enter valid input ");
+				break;
+			}
+		}
+	}
+
+	public static void main(String[] args) {
+		addMultipleAddressBook();
 	}
 
 	static void options() {
@@ -16,7 +58,7 @@ public class AddressBookMain {
 		while (flag == 1) {
 			System.out.println("Welcome to address book program ");
 			System.out.println(
-					"Choose options: \n1.AddContact \n2.EditContact \n3.DeleteContact \n4.AddMultipleContacts \n5.Exit ");
+					"Choose options: \n1.AddContact \n2.EditContact \n3.DeleteContact \n4.AddMultipleContacts \n5.Exit to main menu  ");
 			int choice = sc.nextInt();
 			switch (choice) {
 			case 1:
@@ -40,8 +82,7 @@ public class AddressBookMain {
 				addressBook.addMultipleContacts();
 				break;
 			case 5:
-				flag = 0;
-				System.out.println("Exit successfully");
+				addMultipleAddressBook();
 				break;
 			default:
 				System.out.println("Invalid Choice");
