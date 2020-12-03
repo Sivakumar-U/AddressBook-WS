@@ -8,6 +8,7 @@ public class AddressBookMain {
 
 	static Map<String, AddressBookMain> addressBookObj = new HashMap<>();
 	static AddressBookMain addressObj = new AddressBookMain();
+	static String addressBookName;
 
 	public static void addMultipleAddressBook() {
 		Scanner input = new Scanner(System.in);
@@ -47,10 +48,6 @@ public class AddressBookMain {
 		}
 	}
 
-	public static void main(String[] args) {
-		addMultipleAddressBook();
-	}
-
 	static void options() {
 		AddressBook addressBook = new AddressBook();
 		Scanner sc = new Scanner(System.in);
@@ -58,11 +55,11 @@ public class AddressBookMain {
 		while (flag == 1) {
 			System.out.println("Welcome to address book program ");
 			System.out.println(
-					"Choose options: \n1.AddContact \n2.EditContact \n3.DeleteContact \n4.AddMultipleContacts \n5.Search person in city \n6.View Person by city \n7.Count Contact by city \n8.Sort by name \n9.Sort by state \n10.Exit to main menu  ");
+					"Choose options: \n1.AddContact \n2.EditContact \n3.DeleteContact \n4.SearchPersonInCity \n5.ViewPersonByCity \n6.CountContactByCity \n7.SortByName \n8.SortByState \n9.AddDataToFile \n10.ReadDataFromFile \n11.Exit to main menu  ");
 			int choice = sc.nextInt();
 			switch (choice) {
 			case 1:
-				addressBook.addContact();
+				addressBook.addContact(addressBookName);
 				break;
 			case 2:
 				if (AddressBook.contact.isEmpty()) {
@@ -79,50 +76,58 @@ public class AddressBookMain {
 				addressBook.deleteContact();
 				break;
 			case 4:
-				addressBook.addMultipleContacts();
-				break;
-			case 5:
 				if (AddressBook.contact.isEmpty()) {
 					System.out.println("Address book is empty ");
 					break;
 				}
 				addressBook.searchPersonByCity();
 				break;
-			case 6:
+			case 5:
 				if (AddressBook.contact.isEmpty()) {
 					System.out.println("Address book is empty ");
 					break;
 				}
 				addressBook.viewContactByCity();
 				break;
-			case 7:
+			case 6:
 				if (AddressBook.contact.isEmpty()) {
 					System.out.println("Address book is empty ");
 					break;
 				}
 				addressBook.countContactByCity();
 				break;
-			case 8:
+			case 7:
 				if (AddressBook.contact.isEmpty()) {
 					System.out.println("Address book is empty ");
 					break;
 				}
 				addressBook.sortByName();
 				break;
-			case 9:
+			case 8:
 				if (AddressBook.contact.isEmpty()) {
 					System.out.println("Address book is empty ");
 					break;
 				}
 				addressBook.sortByState();
 				break;
+			case 9:
+				addressBook.addContact(addressBookName);
+				System.out.println("Successfully Added to text file");
+				break;
 			case 10:
+				addressBook.readDataFromFile();
+				break;
+			case 11:
 				addMultipleAddressBook();
 				break;
 			default:
 				System.out.println("Invalid Choice");
 			}
 		}
+	}
+
+	public static void main(String[] args) {
+		addMultipleAddressBook();
 	}
 
 }

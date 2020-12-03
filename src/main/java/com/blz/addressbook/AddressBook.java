@@ -1,5 +1,12 @@
 package com.blz.addressbook;
 
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
@@ -14,7 +21,8 @@ public class AddressBook {
 	ContactDetails newEntry;
 	boolean isExist;
 
-	public void addContact() {
+	public void addContact(String addressBookName) {
+		isExist = false;
 		System.out.println("Enter your firstName : ");
 		String firstName = sc.nextLine();
 		System.out.println("Enter your lastName : ");
@@ -45,6 +53,7 @@ public class AddressBook {
 		if (!isExist) {
 			newEntry = new ContactDetails(firstName, lastName, address, city, state, zip, phoneNo, email);
 			contact.add(newEntry);
+			addDataToFile(firstName, lastName, address, city, state, phoneNo, zip, email, addressBookName);
 		}
 		System.out.println(contact);
 	}
@@ -120,17 +129,6 @@ public class AddressBook {
 		System.out.println("Contact deleted!");
 	}
 
-	public void addMultipleContacts() {
-		System.out.println("Enter number of persons to add to Address Book: ");
-		int noOfPersons = sc.nextInt();
-		sc.nextLine();
-		int count = 1;
-		while (count <= noOfPersons) {
-			addContact();
-			count++;
-		}
-	}
-
 	public void searchPersonByCity() {
 		System.out.println("Enter City Name : ");
 		Scanner sc = new Scanner(System.in);
@@ -163,6 +161,41 @@ public class AddressBook {
 	public void sortByState() {
 		contact = contact.stream().sorted(Comparator.comparing(ContactDetails::getState)).collect(Collectors.toList());
 		contact.forEach(i -> System.out.println(i));
+	}
+
+	public void addDataToFile(String firstName, String lastName, String address, String city, String state,
+			long phoneNumber, int zip, String email, String addressBookName) {
+		System.out.println("Enter name for text file to add data: ");
+		String fileName = sc.nextLine();
+		File file = new File("D:\\" + fileName + ".txt");
+		if (!file.exists()) {
+			try {
+				file.createNewFile();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+		try {
+			FileWriter fw = new FileWriter(file.getAbsoluteFile(), true);
+			BufferedWriter bw = new BufferedWriter(fw);
+			bw.write("Contact:" + "\n1.First name: " + firstName + "\n2.Last name: " + lastName + "\n3.Address: "
+					+ address + "\n4.City: " + city + "\n5.State: " + state + "\n6.Phone number: " + phoneNumber
+					+ "\n7.Zip: " + zip + "\n8.email: " + email + "\n");
+			bw.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+
+	public void readDataFromFile() {
+		System.out.println("Enter text filename to read data: ");
+		String fileName = sc.nextLine();
+		Path filePath = Paths.get("D:\\" + fileName + ".txt");
+		try {
+			Files.lines(filePath).map(line -> line.trim()).forEach(line -> System.out.println(line));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 
 }
