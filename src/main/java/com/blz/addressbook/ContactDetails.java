@@ -24,12 +24,6 @@ public class ContactDetails {
 		this.email = email;
 	}
 
-	@Override
-	public String toString() {
-		return "PersonDetails [firstName=" + firstName + ", lastName=" + lastName + ", address=" + address + ", city="
-				+ city + ", state=" + state + ", zip=" + zip + ", phoneNo=" + phoneNo + ", email=" + email + "]";
-	}
-
 	public String getFirstName() {
 		return firstName;
 	}
@@ -92,6 +86,12 @@ public class ContactDetails {
 
 	public void setEmail(String email) {
 		this.email = email;
+	}
+
+	@Override
+	public String toString() {
+		return "ContactDetails [firstName=" + firstName + ", lastName=" + lastName + ", address=" + address + ", city="
+				+ city + ", state=" + state + ", zip=" + zip + ", phoneNo=" + phoneNo + ", email=" + email + "]";
 	}
 
 }
