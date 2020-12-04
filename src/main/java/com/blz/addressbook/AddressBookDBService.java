@@ -1,0 +1,74 @@
+package com.blz.addressbook;
+
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
+
+public class AddressBookDBService {
+
+	private static AddressBookDBService addressBookDBService;
+
+	private AddressBookDBService() {
+	}
+
+	private Connection getConnection() throws SQLException {
+		String jdbcURL = "jdbc:mysql://localhost:3306/addressBookWS?useSSL=false";
+		String username = "root";
+		String password = "Amigos@1";
+		Connection con;
+		System.out.println("Connecting to database:" + jdbcURL);
+		con = DriverManager.getConnection(jdbcURL, username, password);
+		System.out.println("Connection is successful:" + con);
+		return con;
+
+	}
+
+	public static AddressBookDBService getInstance() {
+		if (addressBookDBService == null)
+			addressBookDBService = new AddressBookDBService();
+		return addressBookDBService;
+	}
+
+	public List<ContactData> readData() throws AddressBookException {
+		String query = "SELECT * FROM addressBookWS; ";
+		return this.getAddressBookDataUsingDB(query);
+	}
+
+	private List<ContactData> getAddressBookDataUsingDB(String sql) throws AddressBookException {
+		List<ContactData> addressBookData = new ArrayList<>();
+		try (Connection connection = this.getConnection();) {
+			Statement statement = connection.createStatement();
+			
+			ResultSet resultSet = statement.executeQuery(sql);
+			addressBookData = this.getAddressBookData(resultSet);
+		} catch (SQLException e) {
+			throw new AddressBookException(e.getMessage(), AddressBookException.ExceptionType.DATABASE_EXCEPTION);
+		}
+		return addressBookData;
+	}
+
+	private List<ContactData> getAddressBookData(ResultSet resultSet) throws AddressBookException {
+		List<ContactData> addressBookData = new ArrayList<>();
+		try {
+			while (resultSet.next()) {
+				String firstName = resultSet.getString("FirstName");
+				String lastName = resultSet.getString("LastName");
+				String address = resultSet.getString("Address");
+				String city = resultSet.getString("City");
+				String state = resultSet.getString("State");
+				int zip = resultSet.getInt("Zip");
+				long phoneNumber = resultSet.getLong("PhoneNumber");
+				String email = resultSet.getString("Email");
+				addressBookData
+						.add(new ContactData(firstName, lastName, address, city, state, zip, phoneNumber, email));
+			}
+		} catch (SQLException e) {
+			throw new AddressBookException(e.getMessage(), AddressBookException.ExceptionType.DATABASE_EXCEPTION);
+		}
+		return addressBookData;
+	}
+}
