@@ -56,7 +56,7 @@ public class AddressBookMain {
 		while (flag == 1) {
 			System.out.println("Welcome to address book program ");
 			System.out.println(
-					"Choose options: \n1.AddContact \n2.EditContact \n3.DeleteContact \n4.SearchPersonInCity \n5.ViewPersonByCity \n6.CountContactByCity \n7.SortByName \n8.SortByState \n9.AddDataToFile \n10.ReadDataFromFile \n11.AddDataToCSV \n12.ReadDataFromCSVFile \n13.Exit to main menu  ");
+					"Choose options: \n1.AddContact \n2.EditContact \n3.DeleteContact \n4.SearchPersonInCity \n5.ViewPersonByCity \n6.CountContactByCity \n7.SortByName \n8.SortByState \n9.AddDataToFile \n10.ReadDataFromFile \n11.AddDataToCSV \n12.ReadDataFromCSVFile \n13.AddDataToJSON \n14.ReadDataFromJSON \n15.Exit to main menu  ");
 			int choice = sc.nextInt();
 			switch (choice) {
 			case 1:
@@ -126,6 +126,13 @@ public class AddressBookMain {
 				addressBook.readDataFromCSVFile();
 				break;
 			case 13:
+				addressBook.addContact(addressBookName);
+				System.out.println("Successfully Added to json file");
+				break;
+			case 14:
+				addressBook.readDataFromJsonFile();
+				break;
+			case 15:
 				addMultipleAddressBook();
 				flag = 0;
 				break;
