@@ -1,5 +1,6 @@
 package com.blz.addressbook;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Scanner;
@@ -10,7 +11,7 @@ public class AddressBookMain {
 	static AddressBookMain addressObj = new AddressBookMain();
 	static String addressBookName;
 
-	public static void addMultipleAddressBook() {
+	public static void addMultipleAddressBook() throws IOException {
 		Scanner input = new Scanner(System.in);
 		System.out
 				.println("Enter choice \n1.Create new addressbook \n2.Adding contacts in existing register \n3.Exit ");
@@ -48,14 +49,14 @@ public class AddressBookMain {
 		}
 	}
 
-	static void options() {
+	public static void options() throws IOException {
 		AddressBook addressBook = new AddressBook();
 		Scanner sc = new Scanner(System.in);
 		int flag = 1;
 		while (flag == 1) {
 			System.out.println("Welcome to address book program ");
 			System.out.println(
-					"Choose options: \n1.AddContact \n2.EditContact \n3.DeleteContact \n4.SearchPersonInCity \n5.ViewPersonByCity \n6.CountContactByCity \n7.SortByName \n8.SortByState \n9.AddDataToFile \n10.ReadDataFromFile \n11.Exit to main menu  ");
+					"Choose options: \n1.AddContact \n2.EditContact \n3.DeleteContact \n4.SearchPersonInCity \n5.ViewPersonByCity \n6.CountContactByCity \n7.SortByName \n8.SortByState \n9.AddDataToFile \n10.ReadDataFromFile \n11.AddDataToCSV \n12.ReadDataFromCSVFile \n13.Exit to main menu  ");
 			int choice = sc.nextInt();
 			switch (choice) {
 			case 1:
@@ -118,16 +119,26 @@ public class AddressBookMain {
 				addressBook.readDataFromFile();
 				break;
 			case 11:
+				addressBook.addContact(addressBookName);
+				System.out.println("Successfully Added to csv file");
+				break;
+			case 12:
+				addressBook.readDataFromCSVFile();
+				break;
+			case 13:
 				addMultipleAddressBook();
+				flag = 0;
 				break;
 			default:
-				System.out.println("Invalid Choice");
+				System.out.println("Enter a valid Choice");
+				break;
 			}
 		}
 	}
 
-	public static void main(String[] args) {
+	public static void main(String[] args) throws IOException {
 		addMultipleAddressBook();
+
 	}
 
 }
