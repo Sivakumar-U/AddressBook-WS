@@ -32,4 +32,6 @@ dependencies {
    	compile 'com.google.code.gson:gson:2.8.6'
    	
    	compile group: 'mysql', name: 'mysql-connector-java', version: '8.0.22'
+   	
+   	testCompile group: 'io.rest-assured',name:'rest-assured',version:'4.3.1' 
 }
