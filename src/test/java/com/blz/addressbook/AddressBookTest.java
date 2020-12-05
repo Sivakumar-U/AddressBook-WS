@@ -22,7 +22,7 @@ public class AddressBookTest {
 	@Test
 	public void givenAddressBook_WhenRetrieved_ShouldMatchCount() throws AddressBookException, SQLException {
 		List<ContactData> data = addressBook.readAddressBookData(IOService.DB_IO);
-		Assert.assertEquals(2, data.size());
+		Assert.assertEquals(3, data.size());
 	}
 
 	@Test
@@ -43,6 +43,15 @@ public class AddressBookTest {
 	@Test
 	public void givenAddresBook_WhenRetrieved_ShouldReturnCountOfCity() throws AddressBookException {
 		Assert.assertEquals(2, addressBook.readAddressBookData("count", "Nellore"));
+	}
+
+	@Test
+	public void givenAddresBookDetails_WhenAdded_ShouldSyncWithDB() throws AddressBookException {
+		addressBook.readAddressBookData(IOService.DB_IO);
+		addressBook.addNewContact("Siva", "Panapati", "Muchivolu", "Tirupati", "AP", 517586, 897562103,
+				"sivap@gmail.com");
+		boolean result = addressBook.checkUpdatedRecordSyncWithDB("Siva");
+		Assert.assertTrue(result);
 	}
 
 }
