@@ -17,6 +17,7 @@ import com.google.gson.Gson;
 
 import io.restassured.RestAssured;
 import io.restassured.response.Response;
+import io.restassured.specification.RequestSpecification;
 
 public class AddressBookTest {
 
@@ -33,7 +34,7 @@ public class AddressBookTest {
 	public static void nullObj() {
 		addressBook = null;
 	}
-	
+
 	@Before
 	public void setup() {
 		RestAssured.baseURI = "http://localhost";
@@ -88,12 +89,20 @@ public class AddressBookTest {
 		Assert.assertTrue(result2);
 
 	}
-	
+
 	private ContactData[] getAddressbookList() {
 		Response response = RestAssured.get("/addressBookWS");
 		System.out.println("Adddressbook entries in JsonServer :\n" + response.asString());
 		ContactData[] arrayOfPerson = new Gson().fromJson(response.asString(), ContactData[].class);
 		return arrayOfPerson;
+	}
+
+	private Response addContactToJsonServer(ContactData addressbookData) {
+		String contactJson = new Gson().toJson(addressbookData);
+		RequestSpecification request = RestAssured.given();
+		request.header("Content-Type", "application/json");
+		request.body(contactJson);
+		return request.post("/addressBookWS");
 	}
 
 	@Test
@@ -104,5 +113,29 @@ public class AddressBookTest {
 		assertEquals(2, entries);
 	}
 
+	@Test
+	public void givenMultiplePerson_WhenAdded_ShouldMatch201ResponseAndCount() {
+		ContactData[] arrayOfContacts = getAddressbookList();
+		addressBook = new AddressBookService(Arrays.asList(arrayOfContacts));
+		ContactData[] arrayOfPerson = {
+				new ContactData(0, "Yuvan", "Nagireddy", "Kothuru", "Nellore", "AP", 517548, 987654421,
+						"yuva@gmail.com"),
+				new ContactData(0, "Narendra", "Konduru", "Mangalagiri", "Guntur", "AP", 547896, 987754321,
+						"nari@gmail.com"),
+				new ContactData(0, "Sai", "Mallela", "Ecospace", "Bangalore", "KA", 510016, 987954321,
+						"sai@gmail.com") };
+
+		for (ContactData addressbookData : arrayOfPerson) {
+
+			Response response = addContactToJsonServer(addressbookData);
+			int statusCode = response.getStatusCode();
+			assertEquals(201, statusCode);
+
+			addressbookData = new Gson().fromJson(response.asString(), ContactData.class);
+			addressBook.addContactToAddressbook(addressbookData, REST_IO);
+		}
+		long entries = addressBook.countEntries(REST_IO);
+		assertEquals(5, entries);
+	}
 
 }
