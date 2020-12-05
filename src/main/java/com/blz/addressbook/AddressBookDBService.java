@@ -6,6 +6,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -108,4 +109,22 @@ public class AddressBookDBService {
 		System.out.println(contactData);
 		return contactData;
 	}
+
+	public List<ContactData> readData(LocalDate start, LocalDate end) throws AddressBookException {
+		String query = null;
+		if (start != null)
+			query = String.format("select * from addressBookWS where Date between '%s' and '%s';", start, end);
+		if (start == null)
+			query = "select * from addressBookWS";
+		List<ContactData> addressBookList = new ArrayList<>();
+		try (Connection con = this.getConnection();) {
+			Statement statement = con.createStatement();
+			ResultSet rs = statement.executeQuery(query);
+			addressBookList = this.getAddressBookDetails(rs);
+		} catch (SQLException e) {
+			throw new AddressBookException(e.getMessage(), AddressBookException.ExceptionType.DATABASE_EXCEPTION);
+		}
+		return addressBookList;
+	}
+
 }
