@@ -1,6 +1,7 @@
 package com.blz.addressbook;
 
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -129,7 +130,8 @@ public class AddressBookDBService {
 
 	public int readDataBasedOnCity(String total, String city) throws AddressBookException {
 		int count = 0;
-		String query = String.format("select %s(state) from addressBookWS where city = '%s' group by city;", total, city);
+		String query = String.format("select %s(state) from addressBookWS where city = '%s' group by city;", total,
+				city);
 		try (Connection connection = this.getConnection()) {
 			Statement statement = connection.createStatement();
 			ResultSet resultSet = statement.executeQuery(query);
@@ -139,6 +141,28 @@ public class AddressBookDBService {
 			throw new AddressBookException(e.getMessage(), AddressBookException.ExceptionType.DATABASE_EXCEPTION);
 		}
 		return count;
+	}
+
+	public ContactData addNewContact(String firstName, String lastName, String address, String city, String state,
+			int zip, long phoneNo, String email) throws AddressBookException {
+		int id = -1;
+		ContactData addressBookData = null;
+		String query = String.format(
+				"insert into addressBookWS(FirstName, LastName, Address, City, State, Zip, PhoneNumber, Email) values ('%s', '%s', '%s', '%s', '%s', '%d', '%d', '%s')",
+				firstName, lastName, address, city, state, zip, phoneNo, email);
+		try (Connection connection = this.getConnection()) {
+			Statement statement = connection.createStatement();
+			int rowChanged = statement.executeUpdate(query, statement.RETURN_GENERATED_KEYS);
+			if (rowChanged == 1) {
+				ResultSet resultSet = statement.getGeneratedKeys();
+				if (resultSet.next())
+					id = resultSet.getInt(1);
+			}
+			addressBookData = new ContactData(firstName, lastName, address, city, state, zip, phoneNo, email);
+		} catch (SQLException e) {
+			throw new AddressBookException(e.getMessage(), AddressBookException.ExceptionType.DATABASE_EXCEPTION);
+		}
+		return addressBookData;
 	}
 
 }
