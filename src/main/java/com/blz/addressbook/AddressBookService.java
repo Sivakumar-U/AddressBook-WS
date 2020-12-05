@@ -73,12 +73,16 @@ public class AddressBookService {
 		addressBookDBService.addMultipleContactsToDBUsingThread(record);
 	}
 
-	public AddressBookService(List<ContactData> addressbookList) {
-		this.addressBookList = new ArrayList<>(addressbookList);
+	public AddressBookService(List<ContactData> addressBookList) {
+		this.addressBookList = new ArrayList<>(addressBookList);
 	}
 
 	public long countEntries(IOService restIo) {
 		return addressBookList.size();
+	}
+
+	public void addContactToAddressbook(ContactData addressBookData, IOService restIo) {
+		addressBookList.add(addressBookData);
 	}
 
 }

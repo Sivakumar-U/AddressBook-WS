@@ -10,10 +10,24 @@ public class ContactData {
 	int zip;
 	long phoneNo;
 	String email;
+	private int id;
 
 	public ContactData(String firstName, String lastName, String address, String city, String state, int zip,
 			long phoneNo, String email) {
 		super();
+		this.firstName = firstName;
+		this.lastName = lastName;
+		this.address = address;
+		this.city = city;
+		this.state = state;
+		this.zip = zip;
+		this.phoneNo = phoneNo;
+		this.email = email;
+	}
+
+	public ContactData(int id, String firstName, String lastName, String address, String city, String state, int zip,
+			long phoneNo, String email) {
+		this.id = id;
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.address = address;
