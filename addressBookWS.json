@@ -1,0 +1,26 @@
+{
+  "addressBookWS": [
+    {
+      "id": 1,
+      "firstname": "Sivakumar",
+      "lastname": "Upparapalli",
+      "address": "Muchivolu",
+      "city": "Tirupati",
+      "state": "AP",
+      "zip": "517536",
+      "phone": "9177855690",
+      "email": "siva@gmail.com"
+    },
+    {
+      "id": 2,
+      "firstname": "Mahesh",
+      "lastname": "Petluru",
+      "address": "Theertampadu",
+      "city": "Nellore",
+      "state": "AP",
+      "zip": "517524",
+      "phone": "9874563210",
+      "email": "mahesh@gmail.com"
+    }
+  ]
+}
