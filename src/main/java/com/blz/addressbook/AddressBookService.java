@@ -1,6 +1,7 @@
 package com.blz.addressbook;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 public class AddressBookService {
@@ -70,6 +71,14 @@ public class AddressBookService {
 
 	public void addMultipleContactsToDBUsingThreads(List<ContactData> record) {
 		addressBookDBService.addMultipleContactsToDBUsingThread(record);
+	}
+
+	public AddressBookService(List<ContactData> addressbookList) {
+		this.addressBookList = new ArrayList<>(addressbookList);
+	}
+
+	public long countEntries(IOService restIo) {
+		return addressBookList.size();
 	}
 
 }
