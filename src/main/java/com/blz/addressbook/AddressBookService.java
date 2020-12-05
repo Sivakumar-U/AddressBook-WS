@@ -21,4 +21,27 @@ public class AddressBookService {
 		return this.addressBookList;
 	}
 
+	public void updateRecord(String firstname, String address) throws AddressBookException {
+		int result = addressBookDBService.updateAddressBookData(firstname, address);
+		if (result == 0)
+			return;
+		ContactData addressBookData = this.getAddressBookData(firstname);
+		if (addressBookData != null)
+			addressBookData.address = address;
+	}
+
+	public boolean checkUpdatedRecordSyncWithDB(String firstname) throws AddressBookException {
+		try {
+			List<ContactData> addressBookData = addressBookDBService.getAddressBookData(firstname);
+			return addressBookData.get(0).equals(getAddressBookData(firstname));
+		} catch (AddressBookException e) {
+			throw new AddressBookException(e.getMessage(), AddressBookException.ExceptionType.DATABASE_EXCEPTION);
+		}
+	}
+
+	private ContactData getAddressBookData(String firstname) {
+		return this.addressBookList.stream().filter(addressBookItem -> addressBookItem.firstName.equals(firstname))
+				.findFirst().orElse(null);
+	}
+
 }
