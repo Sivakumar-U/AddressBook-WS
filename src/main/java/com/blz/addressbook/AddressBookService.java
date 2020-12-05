@@ -61,12 +61,15 @@ public class AddressBookService {
 	public int readAddressBookData(String function, String city) throws AddressBookException {
 		return addressBookDBService.readDataBasedOnCity(function, city);
 	}
-	
+
 	public void addNewContact(String firstName, String lastName, String address, String city, String state, int zip,
 			long phoneNo, String email) throws AddressBookException {
-		addressBookList.add(addressBookDBService.addNewContact(firstName, lastName, address, city, state, zip, phoneNo,
-				email));
+		addressBookList.add(
+				addressBookDBService.addNewContact(firstName, lastName, address, city, state, zip, phoneNo, email));
 	}
 
+	public void addMultipleContactsToDBUsingThreads(List<ContactData> record) {
+		addressBookDBService.addMultipleContactsToDBUsingThread(record);
+	}
 
 }
