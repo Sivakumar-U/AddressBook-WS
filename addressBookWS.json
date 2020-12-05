@@ -21,6 +21,39 @@
       "zip": "517524",
       "phone": "9874563210",
       "email": "mahesh@gmail.com"
+    },
+    {
+      "firstName": "Yuvan",
+      "lastName": "Nagireddy",
+      "address": "Kothuru",
+      "city": "Nellore",
+      "state": "AP",
+      "zip": 517548,
+      "phoneNo": 987654421,
+      "email": "yuva@gmail.com",
+      "id": 3
+    },
+    {
+      "firstName": "Narendra",
+      "lastName": "Konduru",
+      "address": "Mangalagiri",
+      "city": "Guntur",
+      "state": "AP",
+      "zip": 547896,
+      "phoneNo": 987754321,
+      "email": "nari@gmail.com",
+      "id": 4
+    },
+    {
+      "firstName": "Sai",
+      "lastName": "Mallela",
+      "address": "Ecospace",
+      "city": "Bangalore",
+      "state": "KA",
+      "zip": 510016,
+      "phoneNo": 987954321,
+      "email": "sai@gmail.com",
+      "id": 5
     }
   ]
 }
