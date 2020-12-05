@@ -1,6 +1,7 @@
 package com.blz.addressbook;
 
 import java.sql.SQLException;
+import java.util.Arrays;
 import java.util.List;
 
 import org.junit.Assert;
@@ -22,7 +23,7 @@ public class AddressBookTest {
 	@Test
 	public void givenAddressBook_WhenRetrieved_ShouldMatchCount() throws AddressBookException, SQLException {
 		List<ContactData> data = addressBook.readAddressBookData(IOService.DB_IO);
-		Assert.assertEquals(3, data.size());
+		Assert.assertEquals(6, data.size());
 	}
 
 	@Test
@@ -48,10 +49,25 @@ public class AddressBookTest {
 	@Test
 	public void givenAddresBookDetails_WhenAdded_ShouldSyncWithDB() throws AddressBookException {
 		addressBook.readAddressBookData(IOService.DB_IO);
-		addressBook.addNewContact("Siva", "Panapati", "Muchivolu", "Tirupati", "AP", 517586, 897562103,
-				"sivap@gmail.com");
-		boolean result = addressBook.checkUpdatedRecordSyncWithDB("Siva");
+		addressBook.addNewContact("Prudhvi", "Dandi", "Muchivolu", "Tirupati", "AP", 517586, 789654120,
+				"prudhvi@gmail.com");
+		boolean result = addressBook.checkUpdatedRecordSyncWithDB("Prudhvi");
 		Assert.assertTrue(result);
+	}
+
+	@Test
+	public void givenMultipleContact_WhenAdded_ShouldSyncWithDB() throws AddressBookException {
+		ContactData[] contactArray = {
+				new ContactData("Tharun", "Pulluru", "Mcl", "Tirupati", "AP", 517536, 897565874,
+						"tharun@gmail.com"),
+				new ContactData("Nani", "Kalthireddy", "Mr palli", "Tirupati", "AP", 517533, 987456320,
+						"nani@gmail.com") };
+		addressBook.addMultipleContactsToDBUsingThreads(Arrays.asList(contactArray));
+		boolean result1 = addressBook.checkUpdatedRecordSyncWithDB("Tharun");
+		boolean result2 = addressBook.checkUpdatedRecordSyncWithDB("Nani");
+		Assert.assertTrue(result1);
+		Assert.assertTrue(result2);
+
 	}
 
 }
